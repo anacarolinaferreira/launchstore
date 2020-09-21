@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+            <title>LaunchStore</title>
+        {% endblock %}
+        <link rel="stylesheet" href="/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        {%include "parts/header.njk"%}
+
+        {% block content %}{%endblock%}
+
+        {%include "parts/footer.njk"%}
+           
+    </body>
+</html>
