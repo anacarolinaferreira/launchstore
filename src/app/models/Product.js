@@ -1,7 +1,7 @@
-const db =  require('../../config/db')
+const db = require('../../config/db')
 
 module.exports = {
-  create(data){
+  create(data) {
     const query = `
     INSERT INTO products (
       category_id,
@@ -15,16 +15,17 @@ module.exports = {
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING id
     `
-
+    data.price = data.price.replace(/\D/g, "")
+    
     const values = [
       data.category_id,
-      data.user_id,
+      data.user_id || 1,
       data.name,
       data.description,
-      data.old_price,
+      data.old_price || data.price,
       data.price,
       data.quantity,
-      data.status,
+      data.status || 1,
     ]
     return db.query(query, values)
   }
