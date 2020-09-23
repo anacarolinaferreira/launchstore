@@ -61,9 +61,24 @@ body {
 
   transform: all 0.2s;
 }
+.button.edit{
+  background-color: var(--primary-color);
+}
+.button.delete{
+  background-color: lightgray;
+  color: #777;
+}
 .button:hover{
   background-color: var(--hover-button-color);
 }
+.button.edit:hover{
+  background-color: #ca3a01;
+}
+.button.delete:hover{
+  background-color: rgba(223, 62, 62);
+  color: #FFF;
+}
+
 
 /*/FIM CLASSES GLOBAIS */
 
@@ -155,6 +170,9 @@ section.form .header h3 {
   color: var(--primary-color);
   margin-bottom: 16px;
 }
+form .fields{
+  margin-bottom: 64px;
+}
 
 form .item{
   margin-bottom: 16px;
@@ -203,6 +221,15 @@ form .item textarea{
   font-family: 'Roboto', sans-serif;
   min-height: 150px;
 }
-form .fields{
-  margin-bottom: 64px;
+form .item span{
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  border-radius: 16px;
+  color: #FFF;
+  margin-right: 4px;
+  margin-top: 8px;
+  display: inline-block;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
 }
