@@ -16,15 +16,13 @@ module.exports = {
       })
   },
   async post(req, res) {
-    //Logica de salvar
     const keys = Object.keys(req.body)
-
     for (key of keys) {
       if (req.body[key] == "") {
         return res.send('Por favor preencha todos os campos')
       }
     }
-
+    
     let results = await Product.create(req.body)
     const productId = results.rows[0].id
 
@@ -47,16 +45,16 @@ module.exports = {
     return res.render("products/edit.njk", { product, categories })
   },
   async put(req, res) {
-    /* const keys = Object.keys(req.body)
-
-    for (key of keys) {
-      if (req.body[key] == "") {
-        return res.send('Por favor preencha todos os campos')
-      }
-    } */
+    /*  const keys = Object.keys(req.body)
+ 
+     for (key of keys) {
+       if (req.body[key] == "") {
+         return res.send('Por favor preencha todos os campos')
+       }
+     } */
     req.body.price = req.body.price.replace(/\D/g, "")
 
-    if(req.body.old_price != req.body.price){
+    if (req.body.old_price != req.body.price) {
       const oldProduct = await Product.find(req.body.id)
 
       req.body.old_price = oldProduct.rows[0].price
@@ -65,5 +63,10 @@ module.exports = {
 
     return res.redirect(`/products/${req.body.id}/edit`)
 
+  },
+  async delete(req, res) {
+    await Product.delete(req.body.id)
+
+    return res.redirect('/product/create')
   }
 }

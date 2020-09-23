@@ -15,6 +15,7 @@ module.exports = {
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING id
     `
+    console.log(data.name)
     data.price = data.price.replace(/\D/g, "")
 
     const values = [
@@ -29,10 +30,10 @@ module.exports = {
     ]
     return db.query(query, values)
   },
-  find(id){
+  find(id) {
     return db.query('SELECT * FROM products WHERE id = $1', [id])
   },
-  update(data){
+  update(data) {
     const query = `
       UPDATE products SET
         category_id =($1),
@@ -57,5 +58,8 @@ module.exports = {
       data.id
     ]
     return db.query(query, values)
+  },
+  delete(id){
+    return db.query('DELETE FROM products WHERE id = $1', [id])
   }
 }
