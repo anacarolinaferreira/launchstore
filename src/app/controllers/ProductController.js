@@ -2,7 +2,6 @@ const Category = require('../models/Category')
 const Product = require('../models/Product')
 const { formatPrice } = require('../../lib/utils')
 
-
 module.exports = {
   create(req, res) {
     //Pegar categorias
@@ -22,11 +21,11 @@ module.exports = {
         return res.send('Por favor preencha todos os campos')
       }
     }
-    
+
     let results = await Product.create(req.body)
     const productId = results.rows[0].id
 
-    return res.redirect(`/products/${productId}`)
+    return res.redirect(`/products/${productId}/edit`)
 
   },
   async edit(req, res) {
@@ -65,8 +64,9 @@ module.exports = {
 
   },
   async delete(req, res) {
+
     await Product.delete(req.body.id)
 
-    return res.redirect('/product/create')
+    return res.redirect('/products/create')
   }
 }

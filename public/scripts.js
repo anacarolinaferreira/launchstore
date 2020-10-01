@@ -14,3 +14,27 @@ const Mask = {
     }).format(value / 100)
   }
 }
+/* const formDelete = document.querySelector('#form-delete')  
+formDelete.addEventListener('submit', function(event){
+  const confirmation = confirm('Deseja realmente deletar esse registro?')
+  if(!confirmation){
+    event.preventDefault()
+  }
+})
+ */
+//UPLOAD DE IMAGENS
+
+const PhotosUpload = {
+  uploadLimit: 6,
+
+  handleFileInput(event){
+    const {files: fileList} = event.target
+    const {uploadLimit} = PhotosUpload
+
+    if(fileList.length > uploadLimit){
+      alert(`Envie no máximo ${uploadLimit} imagens`)
+      event.preventDefault()
+      return
+    }
+  }
+}
