@@ -24,7 +24,7 @@ module.exports = {
       }
     }
 
-    if (req.files.lenght == "") {
+    if (req.files.length == "") {
       return res.send('Por favor, selecione ao menos uma imagem.')
     }
 
@@ -74,16 +74,16 @@ module.exports = {
        }
      }
 
-     if(req.files.lenght != 0 ){
+     if(req.files.length != 0 ){
        const newFilesPromise = req.files.map(file => 
-        File.create({...file, product_id:req.body.id}))
+        File.create({...file, product_id: req.body.id}))
 
         await Promise.all(newFilesPromise)
      }
 
      if(req.body.removed_files){
         const removedFiles = req.body.removed_files.split(",") // [1,2,3,]
-        const lasIndex = removedFiles.lenght - 1
+        const lasIndex = removedFiles.length - 1
         removedFiles.splice(lasIndex, 1)// [1,2,3]
 
         //array de promessas 
