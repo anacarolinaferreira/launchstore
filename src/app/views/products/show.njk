@@ -3,14 +3,50 @@
 {% block content %}
   <section class="product-single container">
     <div class="gallery">
-      <img src="http://placehold.it/500x500?text=PRODUTO SEM FOTO" alt="Foto do produto">
+      <div class="highlight">
+        {% if not files[0] %}
+          <img src="http://placehold.it/500x500?text=PRODUTO SEM FOTO" alt="Foto do produto">
+          {%else%}
+          <img 
+            src="{{files[0].src}}" 
+            alt="{{files[0].name}}" 
+            onclick="Lightbox.open()">
+        {% endif %}
+
+        <div class="lightbox-target">
+          <img src="{{files[0].src}}" alt="{{files[0].name}}">
+          <a 
+            onclick="Lightbox.close()"
+            href="#" 
+            class="lightbox-close">
+            <i class="material-icons">
+              close
+            </i>
+          </a>
+        </div>
+      </div>
+      <div class="gallery-preview">
+        {% for image in files %}
+          <img 
+            src="{{image.src}}" 
+            alt="{{image.name}}"
+            {% if loop.index0 == 0 %}
+              class="active"
+            {% endif %}
+            onclick="ImageGallery.setImage(event)"
+          >
+        {% endfor %}
+      </div>
     </div>
 
     <div class="info">
       <h1>{{product.name}}</h1>
 
       <div class="published">
-        Publicado em {{product.published.day}} às {{product.published.hour}}
+        Publicado em
+        {{product.published.day}}
+        às
+        {{product.published.hour}}
       </div>
       <div class="description">
         {{product.description}}
@@ -18,9 +54,9 @@
       <div class="price-buy">
         <div class="price">
           {% if product.price !== product.oldPrice %}
-          <span class="old">
-            {{product.oldPrice}}
-          </span>
+            <span class="old">
+              {{product.oldPrice}}
+            </span>
           {% endif %}
           {{product.price}}
         </div>
@@ -29,8 +65,8 @@
             <p class="unavailable">Produto indisponível</p>
           {%elseif product.quantity == 0%}
             <p class="unavailable">Sem estoque</p>
-          {%else%}
-          <button class="button">Comprar</button>
+            {%else%}
+            <button class="button">Comprar</button>
           {% endif %}
         </div>
       </div>
