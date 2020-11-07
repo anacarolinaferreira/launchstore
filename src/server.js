@@ -2,6 +2,7 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const routes = require('./routes')
 const methodOverride = require('method-override')//habilitar o PUT e o DELETE no method
+const session = require('./config/session')
 
 //*************************************************************************/
 
@@ -10,6 +11,15 @@ const server = express()//CRIAÇÃO DO SERVIDOR
 //*************************************************************************/
 
 //INTERCEPTADORES
+
+//criando a seção do usuário
+server.use(session)
+
+//VARIAVEL GLOBAL com node
+server.use((req, res, next) => {
+    res.locals.session = req.session
+    next()
+})
 
 //Habilita o uso do req.body
 server.use(express.urlencoded({extended:true}))

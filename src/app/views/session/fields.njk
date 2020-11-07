@@ -1,0 +1,26 @@
+
+<div class="item">
+  <div>Email</div>
+  <div class="input">
+    <input 
+      type="email" 
+      name="email" 
+      placeholder="Digite seu email" 
+      value="{{user.email}}"
+      onblur="Validate.apply(this, 'isEmail')"{# o blur é usado quando o usuário sai do campo. ex: clica em outro input ou na tela #}
+      required
+    >
+  </div>
+</div>
+
+<div class="item">
+  <div>Senha</div>
+  <div class="input">
+    <input 
+      type="password" 
+      name="password" 
+      placeholder="Digite sua senha" 
+      required
+      >
+  </div>
+</div>

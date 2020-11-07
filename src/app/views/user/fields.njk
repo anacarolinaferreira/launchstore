@@ -5,7 +5,9 @@
       type="text" 
       name="name" 
       placeholder="Digite seu nome completo" 
-      value="{{user.name}}">
+      value="{{user.name}}"
+      required
+      >
   </div>
 </div>
 
@@ -16,7 +18,10 @@
       type="email" 
       name="email" 
       placeholder="Digite seu email" 
-      value="{{user.email}}">
+      value="{{user.email}}"
+      onblur="Validate.apply(this, 'isEmail')"{# o blur é usado quando o usuário sai do campo. ex: clica em outro input ou na tela #}
+      required
+    >
   </div>
 </div>
 
@@ -26,8 +31,13 @@
     <input 
       type="password" 
       name="password" 
+      {% if not user.id %}
       placeholder="Escolha uma senha segura" 
-      value="{{user.password}}">
+      {%else%}
+      placeholder="Digite sua senha para atualizar o cadastro" 
+      {% endif %}
+      required
+      >
   </div>
 </div>
 
@@ -39,6 +49,7 @@
       type="password" 
       name="passwordRepeat" 
       placeholder="Repita a senha escolhida" 
+      
       >
   </div>
 </div>
@@ -51,7 +62,11 @@
       type="text" 
       name="cpf_cnpj" 
       placeholder="Digite seu documento" 
-      value="{{user.cpf_cnpj}}">
+      value="{{user.cpf_cnpj}}"
+      onkeydown = "Mask.apply(this, 'cpfCnpj')"
+      onblur="Validate.apply(this, 'isCpfCnpj')"
+      required
+    >
   </div>
 </div>
 
@@ -61,8 +76,12 @@
     <input 
       type="text" 
       name="cep" 
-      placeholder="00000-000" 
-      value="{{user.cep}}">
+      placeholder="00000-000"
+      onkeydown="Mask.apply(this, 'cep')" 
+      value="{{user.cep}}"
+      onblur="Validate.apply(this, 'isCep')"
+      required
+      >
   </div>
 </div>
 
@@ -73,6 +92,8 @@
       type="text" 
       name="address" 
       placeholder="Digite seu endereço completo" 
-      value="{{user.address}}">
+      value="{{user.address}}"
+      required
+      >
   </div>
 </div>

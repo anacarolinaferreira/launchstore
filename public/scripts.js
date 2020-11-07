@@ -12,16 +12,117 @@ const Mask = {
       style: 'currency',
       currency: 'BRL'
     }).format(value / 100)
+  },
+
+  cpfCnpj(value) {
+    value = value.replace(/\D/g, "")//limpa os campos
+
+    if(value.length >14)
+    value = value.slice(0, -1)
+
+    //check if cnpj
+    if (value.length > 11) {
+      //11.222333000111
+      value = value.replace(/(\d{2})(\d)/, "$1.$2")
+
+      //11.222.333000111
+      value = value.replace(/(\d{3})(\d)/, "$1.$2")
+
+      //11.222.333/000111
+      value = value.replace(/(\d{3})(\d)/, "$1/$2")
+
+      //11.222.333/0001-11
+      value = value.replace(/(\d{4})(\d)/, "$1-$2")
+    
+    } else {
+      //cpf 111.222.333-44
+      value = value.replace(/(\d{3})(\d)/, "$1.$2")
+      value = value.replace(/(\d{3})(\d)/, "$1.$2")
+      value = value.replace(/(\d{3})(\d)/, "$1-$2")
+
+    }
+    return value
+  },
+  cep(value){
+    value = value.replace(/\D/g, "")//limpa os campos
+
+    if(value.length > 8)
+    value = value.slice(0, -1)
+
+    value = value.replace(/(\d{5})(\d)/, "$1-$2")
+
+    return value
   }
 }
-/* const formDelete = document.querySelector('#form-delete')  
-formDelete.addEventListener('submit', function(event){
-  const confirmation = confirm('Deseja realmente deletar esse registro?')
-  if(!confirmation){
-    event.preventDefault()
+
+const Validate = {
+  apply(input, func) {
+      Validate.clearErrors(input)
+
+      let results = Validate[func](input.value)
+      input.value = results.value
+
+      if(results.error)
+        Validate.displayError(input, results.error)
+  },
+  displayError(input, error){
+    const div = document.createElement('div')
+    div.classList.add('error')
+    div.innerHTML = error
+    input.parentNode.appendChild(div)
+    input.focus()
+  },
+  clearErrors(input){
+    const errorDiv = input.parentNode.querySelector(".error")
+    if(errorDiv)
+    errorDiv.remove()
+  },
+  isEmail(value){
+      let error = null
+
+      const mailFormat =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+      if(!value.match(mailFormat))
+        error = "Email inválido"
+
+      return{
+        error,
+        value
+      }
+  },
+  isCpfCnpj(value){
+    let error = null
+
+    const cleanValues = value.replace(/\D/g, "")
+
+    if(cleanValues.length > 11 && cleanValues.length !== 14){
+      error = "CNPJ incorreto"
+    }
+    else if(cleanValues.length < 12 && cleanValues.length !== 11){
+      error = "CPF incorreto"
+    }
+
+    return {
+      error,
+      value
+    }
+  },
+  isCep(value){
+    let error = null
+
+    const cleanValues = value.replace(/\D/g, "")
+
+    if(cleanValues.length !== 8){
+      error = "CEP Incorreto"
+    }
+
+    return {
+      error,
+      value
+    }
+
   }
-})
- */
+}
 //UPLOAD DE IMAGENS
 
 const PhotosUpload = {
@@ -59,7 +160,7 @@ const PhotosUpload = {
   },
   hasLimite(event) {
     const { uploadLimit, input, preview } = PhotosUpload
-    const{files: fileList} = input
+    const { files: fileList } = input
 
     if (fileList.length > uploadLimit) {
       alert(`Envie no máximo ${uploadLimit} imagens`)
@@ -68,13 +169,13 @@ const PhotosUpload = {
     }
     const photosDiv = []
     preview.childNodes.forEach(item => {
-      if(item.classList && item.classList.value == "photo"){
+      if (item.classList && item.classList.value == "photo") {
         photosDiv.push(item)
       }
     })
     const totalPhotos = fileList.length + photosDiv.length
 
-    if(totalPhotos > uploadLimit){
+    if (totalPhotos > uploadLimit) {
       alert(`Você atingiu o limite máximo de ${uploadLimit} imagens`)
       event.preventDefault()
       return true
@@ -118,12 +219,12 @@ const PhotosUpload = {
 
     photoDiv.remove()
   },
-  removeOldPhoto(event){
+  removeOldPhoto(event) {
     const photoDiv = event.target.parentNode
 
-    if(photoDiv.id){
+    if (photoDiv.id) {
       const removedFiles = document.querySelector('input[name="removed_files"]')
-      if(removedFiles){
+      if (removedFiles) {
         removedFiles.value += `${photoDiv.id},`
       }
     }
@@ -134,8 +235,8 @@ const PhotosUpload = {
 const ImageGallery = {
   highlight: document.querySelector('.gallery .highlight > img'),
   previews: document.querySelectorAll('.gallery-preview img'),
-  setImage(event){
-    const {target} = event
+  setImage(event) {
+    const { target } = event
 
     ImageGallery.previews.forEach(preview => preview.classList.remove('active'))
     target.classList.add('active')
@@ -149,13 +250,13 @@ const Lightbox = {
   target: document.querySelector('.lightbox-target'),
   image: document.querySelector('.lightbox-target img'),
   closeButton: document.querySelector('.lightbox-target a.lightbox-close'),
-  open(){
+  open() {
     Lightbox.target.style.opacity = 1
     Lightbox.target.style.top = 0
     Lightbox.target.style.bottom = 0
     Lightbox.closeButton.style.top = 0
   },
-  close(){
+  close() {
     Lightbox.target.style.opacity = 0
     Lightbox.target.style.top = "-100%"
     Lightbox.target.style.bottom = "initial"
@@ -163,3 +264,12 @@ const Lightbox = {
     Lightbox.target.style.transition = "400ms"
   }
 }
+
+/* const formDelete = document.querySelector('#form-delete')
+formDelete.addEventListener('submit', function(event){
+  const confirmation = confirm('Deseja realmente deletar esse registro?')
+  if(!confirmation){
+    event.preventDefault()
+  }
+})
+ */
