@@ -16,11 +16,11 @@ routes.post('/login', SessionValidator.login, SessionController.login)
 routes.post('/logout', SessionController.logout)
 
 //reset password / forgot
-//routes.get('/forgot-password', SessionController.forgotForm)
-//routes.post('/forgot-password', SessionController.forgot)
+routes.get('/forgot-password', SessionController.forgotForm)
+routes.post('/forgot-password',SessionValidator.forgot ,SessionController.forgot)
 
-//routes.get('/password-reset', SessionController.resetForm)
-//routes.post('/password-reset', SessionController.reset)
+routes.get('/password-reset', SessionController.resetForm)
+routes.post('/password-reset',SessionValidator.reset, SessionController.reset)
 
 //user register UserController
 routes.get('/register', UserController.registerForm)
@@ -28,7 +28,7 @@ routes.post('/register', UserValidator.post, UserController.post)
 
 routes.get('/', onlyUsersDo, UserValidator.show, UserController.show)
 routes.put('/', UserValidator.update, UserController.update)
-//routes.delete('/', UserController.delete)
+routes.delete('/', UserController.delete)
 
 //exportando a rota
 module.exports = routes

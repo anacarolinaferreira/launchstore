@@ -24,7 +24,7 @@ module.exports = {
   },
   async update(req, res) {
     try {
-      const {user} = req
+      const { user } = req
 
       let { name, email, cpf_cnpj, cep, address } = req.body
       cpf_cnpj = cpf_cnpj.replace(/\D/g, "")
@@ -48,6 +48,23 @@ module.exports = {
       return res.render("user/index", {
         error: "Algum erro ocorreu ao tentar atualizar o cadastro."
       })
+    }
+  },
+  async delete(req, res) {
+    try {
+      await User.delete(req.body.id)
+      req.session.destroy()
+
+      return res.render("session/login", {
+        success: "Conta deletada com sucesso!"
+      })
+    } catch (error) {
+      console.error(error)
+      return res.render("user/index", {
+        user: req.body,
+        error: `Erro ao tentar deletar sua conta ${error}`
+      })
+
     }
   }
 }

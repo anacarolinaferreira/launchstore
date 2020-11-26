@@ -1,10 +1,20 @@
-section.login.container{
+section.login.container,
+section.password.container{
   max-width: 500px;
 }
 
-section.login.container .fields{
+section.login.container .fields,
+section.password.container .fields{
   margin-bottom: 32px;
 }
+section.password.container .fields input{
+ width: 100%;
+ padding: 8px 8px;
+ margin: 12px 0;
+ color: #777;
+ font-size: 18px;
+}
+
 
 section.login.container .footer ul{
   display: flex;
