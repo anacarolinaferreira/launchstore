@@ -1,4 +1,5 @@
 const User = require('../models/User')
+
 const crypto = require('crypto')
 const { hash } = require('bcryptjs')
 const mailer = require('../../lib/mailer')
@@ -37,7 +38,7 @@ module.exports = {
       //enviar um email com um link de recuperação de senha
       await mailer.sendMail({
         to: user.email,
-        from: 'no-replay@launchstore.com.br',
+        from: 'O EMAIL AQUI',
         subject: 'Recuperação de Senha',
         html: `
       <h2>Perdeu a chave?</h2>
