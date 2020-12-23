@@ -478,10 +478,12 @@ form .item #photos-preview img {
   display: grid;
 }
 .shop .product .image{
-  padding-top: 52.25%;
+  /* padding-top: 52.25%;
   background-size: cover;
   background-position: center center;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
+  width: 20rem;
+  height: 10rem;
 }
 .shop .items h4{
   margin: 8px 0;

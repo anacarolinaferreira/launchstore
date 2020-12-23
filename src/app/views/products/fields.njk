@@ -3,7 +3,12 @@
   <div>
     <select name="category_id">
       {% for category in categories %}
-        <option value="{{category.id}}" {% if product.category_id == category.id %} selected="selected" {% endif %}>
+        <option 
+          value="{{category.id}}" 
+          {% if product.category_id == category.id %} 
+          selected="selected" 
+          {% endif %}
+        >
           {{category.name}}
         </option>
       {% endfor %}
@@ -14,7 +19,12 @@
 <div class="item">
   <div>Título</div>
   <div>
-    <input type="text" name="name" placeholder="Digite o Título do Anúncio" value="{{product.name}}">
+    <input 
+      type="text" 
+      name="name" 
+      placeholder="Digite o Título do Anúncio" 
+      value="{{product.name}}"
+    >
   </div>
 </div>
 
@@ -40,8 +50,8 @@
       <p>Selecione até 6 fotos</p>
     </div>
     <div id="photos-preview">
-      {% if files %}
-       {% for image in files %}
+      {% if product.files %}
+       {% for image in product.files %}
         <div class="photo" id="{{image.id}}">
             <img src="{{image.src}}" alt="{{image.name}}">
             <i class="material-icons" onclick="PhotosUpload.removeOldPhoto(event)">delete_forever</i>
@@ -60,7 +70,7 @@
       type="text" 
       name="price" 
       placeholder="Preço do Produto" 
-      value="{{product.price}}"
+      value="{{product.formattedPrice}}"
       onkeydown = "Mask.apply(this, 'formatBRL')"
      >
   </div>
@@ -68,7 +78,7 @@
     <input 
       type="hidden" 
       name="old_price" 
-      valor={{product.old_price}}>
+      valor={{product.formattedOldPrice}}>
   {% endif %}
 </div>
 

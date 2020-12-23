@@ -1,10 +1,9 @@
 const Category = require('../models/Category')
 const Product = require('../models/Product')
 const File = require('../models/File')
+const LoadProductService = require('../services/LoadProductService')
 
 const { unlinkSync } = require('fs')
-
-const { formatPrice, date } = require('../../lib/utils')
 
 module.exports = {
   async create(req, res) {
@@ -19,16 +18,6 @@ module.exports = {
   },
   async post(req, res) {
     try {
-      const keys = Object.keys(req.body)
-      for (key of keys) {
-        if (req.body[key] == "") {
-          return res.send('Por favor preencha todos os campos')
-        }
-      }
-
-      if (req.files.length == "") {
-        return res.send('Por favor, selecione ao menos uma imagem.')
-      }
 
       let { category_id, name, description, price,
         old_price, quantity, status } = req.body
@@ -56,66 +45,38 @@ module.exports = {
   },
   async show(req, res) {
     try {
-      const product = await Product.find(req.params.id)
+      const product = await LoadProductService.load('product', {
+        where: {
+          id: req.params.id
+        }
+      })
 
-      if (!product) return res.send('Produto não encontrado')
-
-      const { day, hour, minutes, month, year } = date(product.updated_at)
-
-      product.published = {
-        day: `${day}/${month}/${year}`,
-        hour: `${hour}:${minutes}`
-      }
-
-      product.oldPrice = formatPrice(product.old_price)
-      product.price = formatPrice(product.price)
-
-      let files = await Product.files(product.id)
-      files = files.map(file => ({
-        ...file,
-        src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
-      }))
-
-      return res.render("products/show", { product, files })
+      return res.render("products/show", { product })
+    
     } catch (error) {
-      console.error(error);
+      console.error(`ERROR ProductController -> show: ${error}`);
     }
   },
   async edit(req, res) {
     try {
-      const product = await Product.find(req.params.id)
 
-      if (!product) return res.send("Produto não encontrado")
-
-      product.old_price = formatPrice(product.old_price)
-      product.price = formatPrice(product.price)
+      const product = await LoadProductService.load('product', {
+        where: {
+          id: req.params.id
+        }
+      })
 
       //get categories
       const categories = await Category.findAll()
 
-      //get images
-      let files = await Product.files(product.id)
-      //adicionando o endereço correto para cada imagem
-      files = files.map(file => ({
-        ...file,
-        //     http ou https   ex:localhost:3000 end.arquivo sem o publict(public\images\1601817847129-119236-OQ05QX-268.png)
-        src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
-      }))
+      return res.render("products/edit", { product, categories})
 
-      return res.render("products/edit", { product, categories, files })
     } catch (error) {
-      console.error(error);
+      console.error(`ERROR ProductController -> edit: ${error}`);
     }
   },
   async put(req, res) {
     try {
-      const keys = Object.keys(req.body)
-
-      for (key of keys) {
-        if (req.body[key] == "" && key != "removed_files" && key != "old_price") {
-          return res.send('Por favor preencha todos os campos')
-        }
-      }
 
       if (req.files.length != 0) {
         const newFilesPromise = req.files.map(file =>
@@ -140,7 +101,7 @@ module.exports = {
       if (req.body.old_price != req.body.price) {
         const oldProduct = await Product.find(req.body.id)
 
-        req.body.old_price = oldProduct.rows[0].price
+        req.body.old_price = oldProduct.price
       }
       await Product.update(req.body.id, {
         category_id: req.body.category_id,
@@ -154,7 +115,7 @@ module.exports = {
 
       return res.redirect(`/products/${req.body.id}`)
     } catch (error) {
-      console.error(error);
+      console.error(`ERROR ProductController -> put: ${error}`);
     }
   },
   async delete(req, res) {

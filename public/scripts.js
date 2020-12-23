@@ -13,7 +13,6 @@ const Mask = {
       currency: 'BRL'
     }).format(value / 100)
   },
-
   cpfCnpj(value) {
     value = value.replace(/\D/g, "")//limpa os campos
 
@@ -121,10 +120,25 @@ const Validate = {
       value
     }
 
+  },
+  allFields(event){
+    //Seleciona todos os itens do form, sendo .item a classe e em seguida os elementos
+    const items =  document.querySelectorAll('.item input, .item select, .item textarea')
+
+    for(item of items){
+      if(item.value == ""){
+        const message = document.createElement('div')
+        message.classList.add('messages')
+        message.classList.add('error')
+        message.innerHTML = 'Todos os campos são obrigatórios!'
+        message.style.position='fixed'
+        document.querySelector('body').append(message)
+        event.preventDefault()
+      }
+    }
   }
 }
 //UPLOAD DE IMAGENS
-
 const PhotosUpload = {
   preview: document.querySelector('#photos-preview'),
   uploadLimit: 6,
@@ -231,7 +245,6 @@ const PhotosUpload = {
     photoDiv.remove()
   }
 }
-
 const ImageGallery = {
   highlight: document.querySelector('.gallery .highlight > img'),
   previews: document.querySelectorAll('.gallery-preview img'),
@@ -245,7 +258,6 @@ const ImageGallery = {
     Lightbox.image.src = target.src
   }
 }
-
 const Lightbox = {
   target: document.querySelector('.lightbox-target'),
   image: document.querySelector('.lightbox-target img'),

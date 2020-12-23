@@ -19,7 +19,6 @@ async function format(product) {
   product.formattedOldPrice = formatPrice(product.old_price)
   product.formattedPrice = formatPrice(product.price)
 
-
   const { day, hour, minutes, month, year } = date(product.updated_at)
   product.published = {
     day: `${day}/${month}/${year}`,

@@ -1,5 +1,4 @@
 {% macro products(name, classes, products) %}
- {# {{section.products('', 'searched', products)}} #}
   <section class="shop {{classes}}">
     {%if name%}
       <h2>{{name}}</h2>
@@ -8,7 +7,8 @@
         {% for product in products %}
           <div class="product">
             {% if product.img %}
-              <div class="image" style="background-image: url('{{product.src}}')"></div>
+            <img class="image" src="{{product.img}}" alt="{{product.img}}">
+              {# <div class="image" style="background-image: url('{{product.img}}')"></div> #}
               {%else%}
               <div class="image" style="background-image: url('//placehold.it/800x800?text=PRODUTO SEM FOTO')"></div>
             {% endif %}
