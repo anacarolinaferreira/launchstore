@@ -38,7 +38,7 @@ module.exports = {
       //enviar um email com um link de recuperação de senha
       await mailer.sendMail({
         to: user.email,
-        from: 'O EMAIL AQUI',
+        from: 'no-replay@launchstore.com.br',
         subject: 'Recuperação de Senha',
         html: `
       <h2>Perdeu a chave?</h2>

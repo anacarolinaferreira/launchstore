@@ -14,7 +14,7 @@ module.exports = {
 
     let query = `
           SELECT products.*,
-            categories.name AS category_name
+          categories.name AS category_name
           FROM products
           LEFT JOIN categories ON (categories.id = products.category_id)
           WHERE 1 = 1
