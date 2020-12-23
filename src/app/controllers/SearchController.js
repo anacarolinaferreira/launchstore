@@ -7,10 +7,9 @@ module.exports = {
       let params = {}
 
       const { filter, category } = req.query
-      console.log(filter, category)
 
-      if (!filter) return res.redirect("/")
-      //if (!filter || filter.toLowerCase() == 'todos os produtos') filter = null
+      //if (!filter) return res.redirect("/")
+      if (!filter || filter.toLowerCase() == 'todos os produtos') filter = null
 
       params.filter = filter
 
@@ -39,7 +38,8 @@ module.exports = {
           categoriesFiltered.push(category)
 
         return categoriesFiltered
-      }, [])//retorno de array de categorias a fim de evitar rerpetiçaõ
+      }, [])//retorno de array de categorias a fim de evitar rerpetiçao
+
       return res.render("search/index", { products, search, categories })
 
     } catch (err) {

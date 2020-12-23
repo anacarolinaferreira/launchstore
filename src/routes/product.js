@@ -8,7 +8,7 @@ const SearchController = require('../app/controllers/SearchController')
 const { onlyUsersDo } = require('../app/middlewares/session')
 
 //SEARCH
-routes.get('/products/search', SearchController.index)
+routes.get('/search', SearchController.index)
 
 //PRODUCTS
 routes.get('/create', onlyUsersDo, ProductController.create);
