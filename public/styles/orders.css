@@ -1,0 +1,31 @@
+.order-success,
+.order-error{
+  padding: 0;
+  padding-bottom: 50px;
+
+  text-align: center;
+  margin: auto;
+}
+.order-success .success-lottie,
+.order-error .error-lottie{
+  margin: 40px 0 20px;
+  height: 80px;
+}
+.order-success a{
+  color: var(--primary-color);
+  padding: 4px 8px;
+  background: rgb(255, 254, 254);
+  border: 1px solid rgb(236, 234, 234);
+  border-radius: 4px;
+}
+.order-success p,
+.order-error p{
+  margin: 12px 0 24px 0;
+}
+.order-error a{
+  color: rgb(179, 48, 48);
+  padding: 4px 8px;
+  background: rgb(255, 254, 254);
+  border: 1px solid rgb(236, 234, 234);
+  border-radius: 4px;
+}

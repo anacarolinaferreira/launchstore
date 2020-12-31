@@ -1,7 +1,10 @@
 {% extends "layout.njk"%}
 
+{%import "parts/cards.njk" as card%}
+
 {% block content %}
-  <section class="product-single container">
+
+  {%call card.render('', 'product-single container')%}
     <div class="gallery">
       <div class="highlight">
         {% if not product.files[0] %}
@@ -60,16 +63,24 @@
           {% endif %}
           {{product.formattedPrice}}
         </div>
+
+{% if (session.userId) and (product.user_id == session.userId) %}
+<p class="unavailable">Você é o vendedor</p>
+{%else%}
         <div class="buy">
           {% if product.status == 0 %}
             <p class="unavailable">Produto indisponível</p>
           {%elseif product.quantity == 0%}
             <p class="unavailable">Sem estoque</p>
             {%else%}
-            <button class="button">Comprar</button>
+            <form action="/users/orders" method="POST">
+                <input type="hidden" name="id" value="{{product.id}}">
+                <button class="button">Comprar</button>
+            </form>
           {% endif %}
         </div>
+{% endif %}
       </div>
     </div>
-  </section>
+ {%endcall%}
 {% endblock content %}

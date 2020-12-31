@@ -1,6 +1,8 @@
 const User = require('../models/User')
 const Product = require('../models/Product')
 
+const LoadProductsService = require('../services/LoadProductService')
+
 const { hash } = require('bcryptjs')
 const { unlinkSync } = require('fs')
 const { formatCpfCnpj, formatCep } = require("../../lib/utils")
@@ -113,5 +115,11 @@ module.exports = {
       })
 
     }
+  },
+  async ads(req, res){
+    const products = await LoadProductsService.load('products', {
+      where:{user_id: req.session.userId}
+    })
+    return res.render("user/ads", {products})
   }
 }

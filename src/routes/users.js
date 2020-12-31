@@ -3,6 +3,7 @@ const routes = express.Router()
 
 const SessionController = require('../app/controllers/SessionController')
 const UserController = require('../app/controllers/UserController')
+const OrderController = require('../app/controllers/OrderController')
 
 const UserValidator = require('../app/validators/user')
 const SessionValidator = require('../app/validators/session')
@@ -17,10 +18,10 @@ routes.post('/logout', SessionController.logout)
 
 //reset password / forgot
 routes.get('/forgot-password', SessionController.forgotForm)
-routes.post('/forgot-password',SessionValidator.forgot ,SessionController.forgot)
+routes.post('/forgot-password', SessionValidator.forgot, SessionController.forgot)
 
 routes.get('/password-reset', SessionController.resetForm)
-routes.post('/password-reset',SessionValidator.reset, SessionController.reset)
+routes.post('/password-reset', SessionValidator.reset, SessionController.reset)
 
 //user register UserController
 routes.get('/register', UserController.registerForm)
@@ -29,6 +30,10 @@ routes.post('/register', UserValidator.post, UserController.post)
 routes.get('/', onlyUsersDo, UserValidator.show, UserController.show)
 routes.put('/', UserValidator.update, UserController.update)
 routes.delete('/', UserController.delete)
+
+routes.get('/ads', UserController.ads)
+
+routes.post('/orders', onlyUsersDo, OrderController.post)
 
 //exportando a rota
 module.exports = routes

@@ -6,8 +6,13 @@ async function getImages(productId) {
   let files = await Product.files(productId)
   files = files.map(file => ({
     ...file,
-    src: `${file.path.replace("public", "")}`
+    src: `${file.path.replace("public", "")}`,
   }))
+  
+  for (let index = 0; index < files.length; index++) {
+    files[index].src = files[index].src.replace(/[\\"]/g, '/')
+  }
+ 
   return files
 }
 
